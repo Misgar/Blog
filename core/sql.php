@@ -17,17 +17,6 @@ function insert(string $entidade, array $dados): string
     return $instrucao;
 }
 
-$table = 'usuarios';
-$campos = array(
-    "Nome" => "Renato",
-    "Email" => "oliveira.renato12"
-);
-
-$criterios = [
-    'nome', 'idade'];
-
-
-echo insert($table, $campos);
 
 # Retorna query de update com ou sem where
 function update(string $entidade, array $dados, array $criterio = []): string
@@ -55,7 +44,7 @@ function update(string $entidade, array $dados, array $criterio = []): string
 }
 
 # Retorna query Delete com ou sem where.
-function delete(string $entidade, array $criterio = [])
+function delete(string $entidade, array $criterio = []): string
 {
     $instrucao = "DELETE FROM {$entidade}";
 
@@ -72,5 +61,27 @@ function delete(string $entidade, array $criterio = [])
     return $instrucao;
 }
 
+function select(string $entidade, array $campos, array $criterio = [], string $ordem = null): string
+{
+    $instrucao = "SELECT " . implode(', ', $campos);
+    $instrucao .= " FROM {$entidade}";
+
+    if (!empty($criterio)) 
+    {
+        $instrucao .= ' WHERE ';
+
+        foreach ($criterio as $expressao)
+        {
+            $instrucao .= ' ' . implode(' ', $expressao);
+        }
+    }
+
+    if (!empty($ordem))
+    {
+        $instrucao .= " ORDER BY $ordem";
+    }
+
+    return $instrucao;
+}
 
 echo update($table, $campos, $criterios);
