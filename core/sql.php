@@ -24,11 +24,12 @@ $campos = array(
 );
 
 $criterios = [
-    'nome' => 'renato'];
+    'nome', 'idade'];
 
 
 echo insert($table, $campos);
 
+# Retorna query de update com ou sem where
 function update(string $entidade, array $dados, array $criterio = []): string
 {
     $instrucao = "UPDATE {$entidade}";
@@ -52,5 +53,24 @@ function update(string $entidade, array $dados, array $criterio = []): string
 
     return $instrucao;
 }
+
+# Retorna query Delete com ou sem where.
+function delete(string $entidade, array $criterio = [])
+{
+    $instrucao = "DELETE FROM {$entidade}";
+
+    if (!empty($criterio))
+    {
+        $instrucao .= ' WHERE';
+
+        foreach ($criterio as $expressao)
+        {
+            $instrucao .= ' ' . implode(' ', $expressao);
+        }
+    }
+    
+    return $instrucao;
+}
+
 
 echo update($table, $campos, $criterios);
