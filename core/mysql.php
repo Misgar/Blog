@@ -3,6 +3,7 @@
 // Executando funções no banco com Prepared Statements
 
 require 'sql.php';
+require 'conexao_mysql.php';
 
 function insere(string $entidade, array $dados): bool
 {
