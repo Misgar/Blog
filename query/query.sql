@@ -27,5 +27,11 @@ CREATE TABLE post(
     ALTER TABLE usuarios ADD COLUMN ativo boolean NOT NULL DEFAULT 0;
     ALTER TABLE usuarios ADD COLUMN adm boolean NOT NULL DEFAULT 0;
     
+    
+    SELECT * FROM usuarios;
         
+CREATE PROCEDURE SaoBernardoGostosa()
+BEGIN
+
+DECLARE Valor INT(3);
 
