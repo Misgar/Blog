@@ -2,6 +2,8 @@
 
 // Executando funções no banco com Prepared Statements
 
+require 'sql.php';
+
 function insere(string $entidade, array $dados): bool
 {
     $retorno = false;
@@ -187,5 +189,40 @@ function buscar (string $entidade, array $campos = ['*'], array $criterio = [], 
         }
 
         $campo_criterio[] = $nome_campo;
+
+        $$nome_campo = $dado;
     }
+
+    $instrucao = select($entidade, $campos, $coringa_criterio, $ordem);
+
+    $conexao = conecta();
+
+    $stmt = mysqli_prepare($conexao, $instrucao);
+
+    if (isset($tipo)) {
+        $comando = 'mysqli_stmt_bind_param($stmt, ';
+        $comando .= "'" . implode('', $tipo). "'";
+        $comando .= ', $' . implode(', $', $campos_criterio);
+        $comando .= ');';
+        
+        eval($comando);
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    if ($result = mysqli_stmt_get_result($stmt))
+    {
+        # Retornando array assoc ja com todos os dados.
+        $retorno = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        mysqli_free_result($result);
+    }
+
+    $_SESSION['erros'] = mysqli_stmt_error_list($stmt);
+
+    mysqli_stmt_close($stmt);
+
+    desconecta($conexao);
+
+    return $retorno;
 }
