@@ -42,6 +42,7 @@ function insere(string $entidade, array $dados): bool
 
     return $retorno;
 
+
 }
 
 function atualiza(string $entidade, array $dados, array $criterio = []) : bool
